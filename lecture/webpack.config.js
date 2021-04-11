@@ -10,7 +10,7 @@ module.exports = {
 
     // 중요한 두가지
     entry : { //입력
-        app: ['./client.jsx'], //client.jsx에서 WordReplay.jsx를 불러오고 있기때문에 따로 적어주지 않아도 된다. 웹팩이 알아서 다 파악한다
+        app: ['./client'], //client.jsx에서 WordReplay.jsx를 불러오고 있기때문에 따로 적어주지 않아도 된다. 웹팩이 알아서 다 파악한다
     },
 
     module: {
@@ -18,7 +18,9 @@ module.exports = {
             test: /\.jsx?/,
             loader: 'babel-loader',
             options: {
+                //바벨에 대한 설정
                 presets: ['@babel/preset-env', '@babel/preset-react'],
+                //presets만 일단 설치해보고 에러가 뜬다면 에러뜨는걸 추가로 깔아주는 게 좋다
                 plugins: ['@babel/plugin-proposal-class-properties'],
             },
         }],

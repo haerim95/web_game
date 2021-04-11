@@ -14,3 +14,4 @@ class WordRelay extends Component {
 
 
 module.exports = WordRelay;
+//이렇게 꼭 적어줘야만 다른 곳에서 사용이 가능하다

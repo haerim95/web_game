@@ -1,37 +1,10 @@
 <html>
 <head>
-  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <meta charset="UTF-8"/>
+    <title>끝말잇기</title>
 </head>
 <body>
     <div id="root"></div> <!-- <div id="root"><button>Like</button></div> -->
-    <script type="text/babel">
-
-        class LikeButton extends React.Component {
-            constructor(props){
-                super(props);
-                this.state = {
-                    liked: false,
-                };
-            }
-
-            render(){
-                return <button type="submit" onClick={()=> { this.setState({ liked : true })}}>
-                      { this.state.liked === true ?  '좋아요 누름' : '좋아요' }
-                    </button> 
-                //jsx 문법 (js + xml)
-                    // e(
-                    // 'button', 
-                    // {onClick : () => { this.setState({ liked : true })}, type: 'submit' }, 
-                    // this.state.liked === true ? 'Liked' : 'Like'
-                    // ); 
-                    //<button onClick="()=> { console.log('cliked')}" type="submit" >Like</button>
-            }
-        }   
-    </script>
-    <script type="text/babel">
-        ReactDOM.render(<LikeButton/>, document.querySelector('#root'));
-    </script>
+    <script src="./dist/app.js"></script>
 </body>
 </html>

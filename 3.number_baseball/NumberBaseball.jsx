@@ -23,16 +23,48 @@ class NumberBaseball extends Component{
     };
 
     onSubmitForm = (e) => {
+        e.preventDefault();
         {/* 화살표 함수를 쓰는 이유 : this를 사용하지 못한다. 그냥 함수불러오려면 constructor 사용해야함 */}
         if(this.state.value === this.state.answer.join('')){ 
             this.setState({
                 result : '홈런!',
                 tries: [...this.state.tries, { try: this.state.value, result: '홈런!' }]
-            })
+            });
+            alert('게임을 다시 시작합니다.')
+                this.setState({ //게임 리셋
+                    value: '',
+                    answer: getNumbers(),
+                    tries: [],
+                });
         }else{
-            const answerArray = this.state.value.split('').map((v)=> parseInt(v));
+            const answerArray = this.state.value.split('').map((v) => parseInt(v));
             let strike = 0;
             let ball = 0;
+            if(this.state.tries.length >= 9){ //10번 이상 츨렸을때
+                this.setState({
+                    result: `10번 넘게 틀려서 실패! 답은 ${this.state.answer.join(',')} 였습니다! `
+                });
+                alert('게임을 다시 시작합니다.')
+                this.setState({ //게임 리셋
+                    value: '',
+                    answer: getNumbers(),
+                    tries: [],
+                });
+            }else{ //10번 이하로 틀렸을 때
+                for(let i = 0; i < 4; i += 1){ //스트라이크 / 볼 판정 알고리즘
+                    if(answerArray[i] === this.state.answer[i]){
+                        strike += 1;
+                    }else if(this.state.answer.includes(answerArray[i])){
+                        ball += 1;
+                    }
+                }
+                this.setState({
+                    //배열에서 ...을 입력하는 이유: 리액트에선 state가 변했는지 판단하고 render가 되기 때문에
+                    // ...으로 기존 배열을 저장을 해준 뒤에 변경사항을 비교를 해주어야 한다.
+                    tries: [...this.state.tries, { try: this.state.value, result: `${strike} 스트라이크 ${ball} 볼입니다.` }],
+                    value: '',
+                });
+            }
         }
     };
 
@@ -40,16 +72,9 @@ class NumberBaseball extends Component{
         console.log(this.state.answer);
         this.setState({
             value: e.target.value,
-        })
+        });
     };
     
-    fruits = [
-        { fruit: '사과', color: '빨갛다!'}, 
-        { fruit: '바나나', color: '노랗다'}, 
-        { fruit: '포도', color: '푸르다'}, 
-        { fruit: '복숭아', color: '핑크빛'}
-    ];
-
   render(){
       return(
           <>
@@ -59,12 +84,12 @@ class NumberBaseball extends Component{
             </form>
             <div>시도 : {this.state.tries.length}</div>
             <ul>
-                {this.fruits.map((v, i)=>{ //컴퍼넌트엔 인자가 전달되지 않는다
+                {this.state.tries.map((v, i)=>{ //컴퍼넌트엔 인자가 전달되지 않는다
                     return(
                              //key: 고유한 값, key를 입력하지 않으면 key 에러가 뜬다. 
                             // key값이 겹치거나 고유하지 않으면 또 에러가 뜬다. 
                             //key에 index 값 입력하는건 지양하자...성능 최적화에 좋지 않음.
-                        <Try key={v.fruit + v.color } value={v} index={i} /> //반복문에는 성능문제가 자주 발생한다
+                        <Try key={`${i+1} 차 시도 :`} tryInfo={v} /> //반복문에는 성능문제가 자주 발생한다
                         // 인자가 전달되지 않기 때문에 연결고리를 만들어주는데 이게 바로 props이다.
                         // 이름은 아무거나 써도 된다. chicken={v}로 써도됨 그대신 해당 컴퍼넌트에 정해준 이름으로 불러오기
                     );

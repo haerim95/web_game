@@ -26,9 +26,11 @@ class NumberBaseball extends Component{
         e.preventDefault();
         {/* 화살표 함수를 쓰는 이유 : this를 사용하지 못한다. 그냥 함수불러오려면 constructor 사용해야함 */}
         if(this.state.value === this.state.answer.join('')){ 
-            this.setState({
-                result : '홈런!',
-                tries: [...this.state.tries, { try: this.state.value, result: '홈런!' }]
+            this.setState((prevState) => { //옜날 state를 비교하는거라면 함수형 setState 써야한다. 그래야 setState 연달아 써도 문제가 발생 안함
+                return{
+                    result : '홈런!',
+                    tries: [...prevState.tries, { try: this.state.value, result: '홈런!' }]
+                }
             });
             alert('게임을 다시 시작합니다.')
                 this.setState({ //게임 리셋
@@ -58,11 +60,14 @@ class NumberBaseball extends Component{
                         ball += 1;
                     }
                 }
-                this.setState({
+                this.setState( (prevState) => {
                     //배열에서 ...을 입력하는 이유: 리액트에선 state가 변했는지 판단하고 render가 되기 때문에
                     // ...으로 기존 배열을 저장을 해준 뒤에 변경사항을 비교를 해주어야 한다.
-                    tries: [...this.state.tries, { try: this.state.value, result: `${strike} 스트라이크 ${ball} 볼입니다.` }],
-                    value: '',
+                    return{
+                        tries: [...prevState.tries, { try: this.state.value, result: `${strike} 스트라이크 ${ball} 볼입니다.` }],
+                        value: '',
+                    }
+                    
                 });
             }
         }

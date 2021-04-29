@@ -1,5 +1,5 @@
 
-import React, { useState, Component } from 'react';
+import React, { useState, memo } from 'react';
 import Try from './Try'; //프로젝트가 커지면 길어지기 때문에 컴퍼넌트를 나눠서 관리하면 코드관리가 깔끔해진다.
 
 //hooks 로 안바꿔줘도 ok
@@ -14,7 +14,7 @@ function getNumbers(){ //숫자 네개를 겹치지 않고 랜덤하게 뽑는 �
     return array;
 }
 
-const NumberBaseball = () => {
+const NumberBaseball = memo(() => {
     const [result, setResult] = useState('');
     const [value, setValue] = useState('');
     const [answer, setAnswer] = useState(getNumbers());
@@ -86,7 +86,7 @@ const NumberBaseball = () => {
         </ul>
       </>
     )
-};
+});
 
 //export const hello = 'hello'; //import { hello }, 변수명만 안 겹치면 여러개 사용 가능
 export default NumberBaseball; //import NumberBaseball , 한번만 쓸 수 있음

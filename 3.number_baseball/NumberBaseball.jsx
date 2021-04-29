@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import Try from './Try'; //프로젝트가 커지면 길어지기 때문에 컴퍼넌트를 나눠서 관리하면 코드관리가 깔끔해진다.
 
 
@@ -31,6 +31,7 @@ class NumberBaseball extends Component{
                     result : '홈런!',
                     tries: [...prevState.tries, { try: this.state.value, result: '홈런!' }]
                 }
+                this.onInputRef.focus;
             });
             alert('게임을 다시 시작합니다.')
                 this.setState({ //게임 리셋
@@ -38,6 +39,7 @@ class NumberBaseball extends Component{
                     answer: getNumbers(),
                     tries: [],
                 });
+                this.onInputRef.current.focus;
         }else{
             const answerArray = this.state.value.split('').map((v) => parseInt(v));
             let strike = 0;
@@ -52,6 +54,7 @@ class NumberBaseball extends Component{
                     answer: getNumbers(),
                     tries: [],
                 });
+                this.onInputRef.current.focus;
             }else{ //10번 이하로 틀렸을 때
                 for(let i = 0; i < 4; i += 1){ //스트라이크 / 볼 판정 알고리즘
                     if(answerArray[i] === this.state.answer[i]){
@@ -67,8 +70,8 @@ class NumberBaseball extends Component{
                         tries: [...prevState.tries, { try: this.state.value, result: `${strike} 스트라이크 ${ball} 볼입니다.` }],
                         value: '',
                     }
-                    
                 });
+                this.onInputRef.current.focus;
             }
         }
     };
@@ -79,13 +82,15 @@ class NumberBaseball extends Component{
             value: e.target.value,
         });
     };
+
+    inputRef = createRef();
     
   render(){
       return(
           <>
             <h1>{this.state.result}</h1>
             <form onSubmit={this.onSubmitForm}>
-                <input maxLength={4} value={this.state.value} onChange={this.onChangeInput}/>
+                <input ref={this.input = c} maxLength={4} value={this.state.value} onChange={this.onChangeInput}/>
             </form>
             <div>시도 : {this.state.tries.length}</div>
             <ul>

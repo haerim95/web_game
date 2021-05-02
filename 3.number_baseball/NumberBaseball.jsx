@@ -22,6 +22,10 @@ class NumberBaseball extends Component{
         tries: [], //push 쓰면 안돼!
     };
 
+    // shouldComponentUpdate(nextProps, nextState, nextContext){};
+    // A(NumberBaseball) -> B(Try) -> C
+    // A에서 C로 props 넘기고 싶을 때 : context 사용 , context 에서 더 응용한게 리덕스이다.
+
     onSubmitForm = (e) => {
         e.preventDefault();
         {/* 화살표 함수를 쓰는 이유 : this를 사용하지 못한다. 그냥 함수불러오려면 constructor 사용해야함 */}

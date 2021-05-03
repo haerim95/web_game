@@ -1,0 +1,27 @@
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>반응속도 체크</title>
+    <style>
+        #screen{
+            width: 300px;
+            height: 200px;
+            text-align: center;
+            user-select: none;
+        }
+        #screen.waiting{
+            background-color: rgb(58, 139, 139);
+        }
+        #screen.ready{
+            background-color:rgb(197, 66, 66);
+        }
+        #screen.now{
+            background-color: rgb(79, 143, 79);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div> <!-- <div id="root"><button>Like</button></div> -->
+    <script src="./dist/app.js"></script>
+</body>
+</html>

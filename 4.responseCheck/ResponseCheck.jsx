@@ -46,11 +46,20 @@ class ResponseCheck extends Component {
 
     };
 
+    onReset = () => {
+      this.setState({
+        result: [],
+      });
+    }
+
     renderAverage = () => {
       const { result } = this.state;
       return  this.state.result.length === 0  //if문 대신 삼항연산자
         ? null  //jsx에선 null이 태그가 아예 없는걸로 이해한다.
-        : <div>평균 시간 : {result.reduce((a, c) => a + c) / result.length }ms</div>
+        : <>
+            <div>평균 시간 : {result.reduce((a, c) => a + c) / result.length }ms</div>
+            <button onClick={this.onReset}>리셋</button>
+          </>
     }
 
     render(){ //for와 if 사용을 못함 render 안에선...

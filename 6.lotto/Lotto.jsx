@@ -22,10 +22,12 @@ class Lotto extends Component{
 
   };
 
+  timeouts = []; //clear
+
   componentDidMount(){
     const {winNumbers} = this.state; //this.state는 구조분해 해주는 것이 보기가 좋다.
     for(let i = 0; i < winNumbers.length - 1; i++){ //-1 한 이유는 보너스 공때문에
-      setTimeout(()=> {
+      this.timeouts[i] = setTimeout(()=> {
         this.setState((prevState) => {
           return{
             winBalls: [...prevState.winBalls, winNumbers[i]],
@@ -33,7 +35,7 @@ class Lotto extends Component{
         });
       }, (i + 1) * 1000 );
     }
-    setTimeout(()=>{
+    this.timeouts[6] = setTimeout(()=>{
       this.setState({
         bonus : winNumbers[6],
         redo: true, // 한번더 버튼 보이기
@@ -41,13 +43,15 @@ class Lotto extends Component{
     }, 7000);
   }
 
-  componentWillUnmount(){
-    
+  componentWillUnmount(){ //clear가 안되었을때 타임아웃
+    this.timeouts.forEach((v)=>{
+      clearTimeout(v);
+    })
   }
 
   render(){
     const {winBalls, bonus, redo} = this.state;
-    retrun(
+    return(
       <>
         <div>당첨 숫자 : </div>
         <div id="결과창">
@@ -56,7 +60,7 @@ class Lotto extends Component{
         </div>
         <div>보너스!</div>
         {bonus && <Ball number={bonus} />}
-        <button onClick={redo ? onClickRedo : () => {}}>한번더!</button>
+        {redo && <button onClick={this.onClickRedo}>한번 더!</button>}
       </>
     );
   }

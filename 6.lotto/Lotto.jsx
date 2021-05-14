@@ -10,7 +10,7 @@ function getWinNumbers(){
   }
   const bonusNumber = shuffle[shuffle.length - 1];
   const winNumbers = shuffle.slice(0,6).sort((p,c) => p -c);
-  return [...winNumber, bonusNumber];
+  return [...winNumbers, bonusNumber];
 }
 
 class Lotto extends Component{
@@ -21,6 +21,29 @@ class Lotto extends Component{
     redo: false, //재실행
 
   };
+
+  componentDidMount(){
+    const {winNumbers} = this.state; //this.state는 구조분해 해주는 것이 보기가 좋다.
+    for(let i = 0; i < winNumbers.length - 1; i++){ //-1 한 이유는 보너스 공때문에
+      setTimeout(()=> {
+        this.setState((prevState) => {
+          return{
+            winBalls: [...prevState.winBalls, winNumbers[i]],
+          }
+        });
+      }, (i + 1) * 1000 );
+    }
+    setTimeout(()=>{
+      this.setState({
+        bonus : winNumbers[6],
+        redo: true, // 한번더 버튼 보이기
+      });
+    }, 7000);
+  }
+
+  componentWillUnmount(){
+    
+  }
 
   render(){
     const {winBalls, bonus, redo} = this.state;

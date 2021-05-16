@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import Ball from './Ball';
 
 function getWinNumbers(){
@@ -14,8 +14,9 @@ function getWinNumbers(){
 }
 
 const Lotto = () => {
-  const [winNumbers , setWinNUmbers] = useState(getWinNumbers());
+  const lottoNumbers = useMemo(()=> getWinNumbers(), []); //두번째 배열의 요소가 바뀌지 않는 한 재실행 되지 않는다.
   const [winBalls, setWinBalls] = useState([]);
+  const [winNumbers , setWinNUmbers] = useState(lottoNumbers);
   const [bonus, setBonus] = useState(null);
   const [redo, setRedo] = useState(false);
   const timeouts = useRef([]);
@@ -40,13 +41,16 @@ const Lotto = () => {
   //배열에 요소가 있으면 componentDidMount랑 componentDidUpdate 둘 다 수행한다.
   //배열의 조건이 맞으면 componentDidUpdate가 수행된다.
 
-  const onClickRedo = () => {
+  const onClickRedo = useCallback(() => { //usecallback은 함수 자체를 기억
+    //useCallback을 꼭 사용해야하는 경우 : 부모 컴퍼넌트에서 props로 자식컴퍼넌트로 넘겨줄때...
+    //그래야 쓸데없이 리렌더링 되지 않는다.
+    console.log(winNumbers);
     setWinNUmbers(getWinNumbers());
     setWinBalls([]);
     setBonus(null);
     setRedo(false);
     timeouts.current = [];
-  }
+  }, [winNumbers]); //useCallback에선 바뀌는 state를 인자로 넣어주어야한다.
 
   return(
     <>
@@ -56,7 +60,7 @@ const Lotto = () => {
       {/* Ball component 따로 불러옴 */}
     </div>
     <div>보너스!</div>
-    {bonus && <Ball number={bonus} />}
+    {bonus && <Ball number={bonus} onClick={onClickRedo} />}
     {redo && <button onClick={onClickRedo}>한번 더!</button>}
     </>
   );

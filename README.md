@@ -44,4 +44,5 @@
 
 - 1~5번에서 배운 부분들 총망라
 - lifecircle hooks로 변경하기
-- useEffect 사용
+- useEffect, useMemo 사용
+- hooks 사용시 console 사용으로 제때 돌아가고 있는지 확인하자 

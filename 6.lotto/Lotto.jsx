@@ -49,7 +49,7 @@ class Lotto extends Component{
 
   componentDidUpdate(prevProps, prevState){
     // 조건문을 잘 적어주는게 중요하다. 안그럼 state나 props 가 바꼈을때 계속 update가 된다.
-    if(this.state.winBalls.length === 0){
+    if(this.timeouts.length === 0){
       this.runTimeouts();
     }
   }

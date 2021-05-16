@@ -41,3 +41,7 @@
 ---
 
 6. lotto
+
+- 1~5번에서 배운 부분들 총망라
+- lifecircle hooks로 변경하기
+- useEffect 사용

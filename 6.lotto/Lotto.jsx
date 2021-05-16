@@ -24,7 +24,7 @@ class Lotto extends Component{
 
   timeouts = []; //clear
 
-  componentDidMount(){
+  runTimeouts = () => {
     const {winNumbers} = this.state; //this.state는 구조분해 해주는 것이 보기가 좋다.
     for(let i = 0; i < winNumbers.length - 1; i++){ //-1 한 이유는 보너스 공때문에
       this.timeouts[i] = setTimeout(()=> {
@@ -43,10 +43,31 @@ class Lotto extends Component{
     }, 7000);
   }
 
+  componentDidMount(){
+    this.runTimeouts();
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    // 조건문을 잘 적어주는게 중요하다. 안그럼 state나 props 가 바꼈을때 계속 update가 된다.
+    if(this.state.winBalls.length === 0){
+      this.runTimeouts();
+    }
+  }
+
   componentWillUnmount(){ //clear가 안되었을때 타임아웃
     this.timeouts.forEach((v)=>{
       clearTimeout(v);
     })
+  }
+
+  onClickRedo = () => { //초기화
+    this.setState({
+      winNumbers: getWinNumbers(), 
+      winBalls: [],
+      bonus: null, 
+      redo: false,
+    });
+    this.timeouts = [];
   }
 
   render(){

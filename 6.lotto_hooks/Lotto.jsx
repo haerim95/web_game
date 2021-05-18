@@ -22,6 +22,15 @@ const Lotto = () => {
   const [redo, setRedo] = useState(false);
   const timeouts = useRef([]);
 
+  //componentDidMount만 하는 법
+  /*
+  useEffect( () => {
+    //ajax 호출
+  }, []); //두번째 인자를 빈배열로 넣어주면 componentDidUpdate가 실행되지 않는다.
+  */
+  
+
+  //componentDidUPdate만 하는 법
   /*const mounted = useRef(false);
   useEffect(() => {
     if(mounted.current){

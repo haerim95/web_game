@@ -14,6 +14,7 @@ function getWinNumbers(){
 }
 
 const Lotto = () => {
+  //hooks는 순서가 중요하다. 순서대로 실행이 되기 때문에. 조건문 안에 넣으면 안된다.
   const lottoNumbers = useMemo(()=> getWinNumbers(), []); //두번째 배열의 요소가 바뀌지 않는 한 재실행 되지 않는다.
   const [winBalls, setWinBalls] = useState([]);
   const [winNumbers , setWinNUmbers] = useState(lottoNumbers);
@@ -21,6 +22,17 @@ const Lotto = () => {
   const [redo, setRedo] = useState(false);
   const timeouts = useRef([]);
 
+  /*const mounted = useRef(false);
+  useEffect(() => {
+    if(mounted.current){
+      mounted.current = true;
+    }else{
+      //ajax 호출
+    }
+  }, [바뀌는 값]); //componentDidUpdate만 componentDidMount X
+  */
+
+  //use~ 안에 또 다른 use~ 를 넣어주면 안된다.
   useEffect(()=>{
     console.log('useEffect');
     for(let i = 0; i < winNumbers.length - 1; i++){ //-1 한 이유는 보너스 공때문에

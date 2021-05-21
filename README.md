@@ -46,3 +46,12 @@
 - lifecircle hooks로 변경하기
 - useEffect, useMemo 사용
 - hooks 사용시 console 사용으로 제때 돌아가고 있는지 확인하자 
+
+---
+
+7. TicTacToe
+
+- reducer 사용
+- reducer을 이용해 action, dispatch 사용
+- 리액트의 불변성의 중요성 ⭐️⭐️⭐️⭐️⭐️
+- useRef, useEffect를 사용한 문제 검사, memo, useMemo를 이용한 성능 최적화

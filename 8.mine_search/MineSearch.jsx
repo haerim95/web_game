@@ -83,9 +83,18 @@ const reducer = (state, action) => {
       tableData.forEach((row, i) => {
         tableData[i] = [...state.tableData[i]];
       });
-      const checkArround = (row, cell) => { //내 기준으로 칸을 검사하는 함수
-        if([CODE.OPENED, CODE.FLAG_MINE, CODE_FLAG, CODE.QUESTION_MINE, CODE.QUESTION].includes(tableData[row][cell])){
-          
+      const checked = [];
+      const checkAround = (row, cell) => { //내 기준으로 칸을 검사하는 함수
+        if(row < 0 || row >= tableData.length || cell < 0 || cell > tableData[0].length){ //상하좌우 칸이 아닌 경우 필터링
+          return;
+        };
+        if([CODE.OPENED, CODE.FLAG_MINE, CODE.FLAG, CODE.QUESTION_MINE, CODE.QUESTION].includes(tableData[row][cell])){
+          return;
+        };
+        if(checked.includes(row + ',' + cell)){ //이미 검사한 칸이면
+          return
+        }else{
+          checked.push(row+ '.' + cell );
         }
         let around = [];
         if(tableData[row -1]){ //윗줄이 있을때
@@ -123,14 +132,16 @@ const reducer = (state, action) => {
             near.push([row + 1, cell]);
             near.push([row + 1, cell + 1]);
           }
-          near.filter(v => !!v).forEach((n)=>{
-            checkArround(n[0], n[1]);
+          near.forEach((n)=>{
+            if(tableData[n[0][n[1]] !== CODE.OPENED ]){ //내가 칸을 클릭을 하고, 주변칸들이 닫혀있을때만
+              checkAround(n[0], n[1]);
+            }
           });
         }else{
           
         }
       };
-      checkArround(action.row, action.cell);
+      checkAround(action.row, action.cell);
       return{
         ...state,
         tableData,

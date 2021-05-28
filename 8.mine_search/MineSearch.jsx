@@ -22,9 +22,15 @@ export const TableContext = createContext({
 
 const initialState = {
   tableData : [],
+  data: {
+    row: 0,
+    cell: 0,
+    mine: 0,
+  },
   timer: 0,
   result: '',
   halted: true,
+  openedCount: 0,
 };
 
 const plantMine = (row, cell, mine) => { //지뢰 심기
@@ -73,6 +79,11 @@ const reducer = (state, action) => {
     case START_GAME: {
       return {
         ...state,
+        data: {
+          row: action.row,
+          cell: action.cell,
+          mine: action.mine,
+        },
         tableData: plantMine(action.row, action.cell, action.mine),
         halted: false,
       }
@@ -81,9 +92,10 @@ const reducer = (state, action) => {
       // 불변성 유지를 위해 ...으로 저장
       const tableData = [...state.tableData];
       tableData.forEach((row, i) => {
-        tableData[i] = [...state.tableData[i]];
+        tableData[i] = [...row];
       });
       const checked = [];
+      let count = 0;
       const checkAround = (row, cell) => { //내 기준으로 칸을 검사하는 함수
         if(row < 0 || row >= tableData.length || cell < 0 || cell > tableData[0].length){ //상하좌우 칸이 아닌 경우 필터링
           return;
@@ -96,6 +108,7 @@ const reducer = (state, action) => {
         }else{
           checked.push(row+ '.' + cell );
         }
+        count += 1;
         let around = [];
         if(tableData[row -1]){ //윗줄이 있을때
           around = around.concat( // 윗줄 세칸 검사
@@ -142,9 +155,16 @@ const reducer = (state, action) => {
         }
       };
       checkAround(action.row, action.cell);
+      let halted = false;
+      let result = '';
+      if(state.row * state.cell - state.mine === state.openedCount + count){ //승리 
+        halted = true;
+        result = '승리하셨습니다.'
+      }
       return{
         ...state,
         tableData,
+        openedCount: state.openedCount + count,
       };
     };
     case CLICK_MINE:{

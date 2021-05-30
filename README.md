@@ -55,3 +55,17 @@
 - reducer을 이용해 action, dispatch 사용
 - 리액트의 불변성의 중요성 ⭐️⭐️⭐️⭐️⭐️
 - useRef, useEffect를 사용한 문제 검사, memo, useMemo를 이용한 성능 최적화
+
+---
+
+8. 지뢰찾기
+
+- 지금까지 배운 것들에 대한 것들 총망라
+
+---
+
+9. game matcher
+
+- react-router 사용
+- 동적/정적 라우팅 매칭
+- search params

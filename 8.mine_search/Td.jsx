@@ -36,7 +36,7 @@ const getTdText = (code) => {
     case CODE.NORMAL:
       return '';
     case CODE.MINE:
-      return 'X';
+      return '';
     case CODE.CLICKED_MINE:
       return '펑';
     case CODE.FLAG_MINE:
@@ -102,6 +102,7 @@ const Td = memo(({ rowIndex, cellIndex }) => {
   console.log('td rendered');
 
   //component를 분리한 거임
+  //분리한 이유 : 함수는 수백번 호출되어도 component는 한번만 랜더링 되도록 최적화 
   return <RealTd onClickTd={onClickTd} onRightClickTd={onRightClickTd} data={tableData[rowIndex][cellIndex]} />;
 });
 
